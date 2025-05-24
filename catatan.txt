@@ -1,0 +1,47 @@
+JIKA INSTALL DOCKER DESKTOP sudah SUKSES:
+Deploy Statis Web Dengan Docker Dan Nginx 
+1. Buat sebuah file index.html di root direktori linux docker (WSL2 => menggunakan perintah CLI), isinya: 
+
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Document</title>
+	</head>
+	<body>
+		<h1>
+			Hello World From Docker Nginx with Suyud niii
+		</h1>
+	</body>
+	</html>
+
+2. Buat file lagi setelah no-1 diatas, dengan nama file: Dockerfile, isinya:
+
+	FROM nginx:alpine
+	COPY . /usr/share/nginx/html
+
+3.  Kemudian buka terminal/cmd (jika dua-langkah diatas tidak menggunakan terminal Linux Docker (WSL2 nya)), pastikan lokasi terminal di folder root, kemudian ketikan perintahdi BUILD IMAGE dibawah ini:
+
+	docker build -t html-server-image:v1 .
+
+4. Setelah proses build, jalankan image dengan mengetikan perintah:
+
+	docker run -d -p 8080:80 html-server-image:v1
+
+5. Kemudian akses dengan browser localhost:8080, jika berhasil maka web HTML yang sudah dibuat akan tampil di browser
+
+6. Build dengan MAPPING SOURCE CODE:
+   
+   docker run -d -p 8181:80 -v /home/ubuntu/teknologiplatform/index.html:/usr/share/nginx/html/index.html:ro --name server3 html-server-image:v1
+   
+CONTAINER REMOTE ACCESS
+7. docker exec -it ID sh
+
+PUSH
+8. docker tag firstimage YOUR_DOCKERHUB_NAME/firstimage 	docker tag html-server-image:v1 suyudw/html-server-image:v1
+9. docker push YOUR_DOCKERHUB_NAME/firstimage				docker push suyudw/html-server-image:v1 
+docker image build -t <your-docker-hub-username>/<your-base-image-name>:<your-base-image-tag> .
+docker image push <your-docker-hub-username>/<your-base-image-name>:<your-base-image-tag>
+docker build -t suyudw/html-server-image:v2 .

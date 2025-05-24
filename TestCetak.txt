@@ -1,0 +1,58 @@
+private void cetak1ActionPerformed(java.awt.event.ActionEvent evt) {                                       
+        // TODO add your handling code here:
+        String nama =jTextField1.getText();
+        String nim =jTextField2.getText();
+        String prodi =jTextField3.getText();
+        String kelas =jTextField4.getText();
+        PDPage TestCetak = new  PDPage();
+        //        jenis font
+        PDFont JenisFont = PDType1Font.COURIER;
+        //      ukuran font
+        int FontSize = 12;
+        //        membuat file pdf
+        try (PDDocument dokumen =  new PDDocument()) {
+            dokumen.addPage(TestCetak);
+            //membuat objek yang akan diisi teks
+            PDPageContentStream content =  new PDPageContentStream(dokumen, TestCetak);
+            //awal dari penulisan dokumen
+            content.beginText();
+            content.setFont(JenisFont, FontSize);
+            content.setLeading(20f);
+            content.newLineAtOffset(50,750);
+            content.showText("=====================");
+            content.showText("BIODATA MAHASISWA");
+            content.showText("=====================");
+            content.newLine();
+            content.newLine();
+            content.showText("NAMA  ="+nama);
+            content.newLine();
+            content.showText("NIM   ="+nim);
+            content.newLine();
+            content.showText("PRODI ="+prodi);
+            content.newLine();
+            content.showText("KELAS ="+kelas);
+            content.newLine();
+            content.showText("=====================");
+
+            content.endText();
+            content.close();
+            dokumen.save("D:/TestCetakPdfBox-001.pdf");
+            JOptionPane.showMessageDialog(null, "Berhasil Mencetak");
+
+        } catch (IOException ioe) {
+            System.out.println("Gagal Membuat PDF"+ioe.getMessage());
+            JOptionPane.showMessageDialog(null, "Gagal Mencetak");
+            
+        }
+        try {
+            File file =  new File("D:/TestCetakPdfBox-001.pdf");
+            if (file.exists()) {
+                Desktop.getDesktop().open(file);
+                
+            }else{
+                System.out.println("FILE TIDAK TERSEDIA -> "+file.getAbsolutePath());
+            }
+        } catch (IOException e) {
+            System.out.println("Gagal Membuka File PDF");
+        }
+}
